@@ -10,22 +10,87 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const tileData = [
-  faSquare,
-  faSquare,
-  faCircle,
-  faCircle,
-  faExclamationTriangle,
-  faExclamationTriangle,
-  faArrowCircleUp,
-  faArrowCircleUp,
-  faArrowUp,
-  faArrowUp,
-  faAddressBook,
-  faAddressBook,
-  faSchool,
-  faSchool,
-  faAppleAlt,
-  faAppleAlt,
+  {
+    // id: 0,
+    icon: faSquare,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faSquare,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faCircle,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faCircle,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faExclamationTriangle,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faExclamationTriangle,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faArrowCircleUp,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faArrowCircleUp,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faArrowUp,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faArrowUp,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faAddressBook,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faAddressBook,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faSchool,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faSchool,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faAppleAlt,
+    flipped: false,
+    matched: false,
+  },
+  {
+    icon: faAppleAlt,
+    flipped: false,
+    matched: false,
+  },
 ];
 
 const shuffleTiles = (tiles) => {
@@ -36,22 +101,33 @@ const shuffleTiles = (tiles) => {
 };
 
 const Grid = () => {
-  const [tiles, setTiles] = useState(shuffleTiles(tileData));
+  const [startGame, setStartGame] = useState(false);
+  const [tiles, setTiles] = useState(tileData);
   const [flippedCards, setFlippedCards] = useState([]);
 
   useEffect(() => {
-    console.log(flippedCards);
-  }, [flippedCards]);
+    setStartGame(true);
+    setTiles(shuffleTiles(tiles));
+  }, [startGame]);
+
+  const updateTiles = (id1, id2, bool, property) => {
+    const newTiles = [...tiles];
+    newTiles[id1][property] = bool;
+    if (id2) newTiles[id2][property] = bool;
+    setTiles(newTiles);
+  };
 
   return (
     <div className="w-full flex justify-center items-center">
       <div className="w-2/3 grid grid-cols-4">
-        { tiles.map((icon, i) => (
+        { tiles.map((tile, i) => (
           <Tile
+            index={i}
             key={i}
-            icon={icon}
+            tile={tile}
             flippedCards={flippedCards}
             setFlippedCards={setFlippedCards}
+            updateTiles={updateTiles}
           />
         )) }
       </div>
