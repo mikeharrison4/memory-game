@@ -7,7 +7,9 @@ export const shuffleTiles = (tiles) => {
     .map(({ value }) => value);
 };
 
-export const doTheyMatch = (flippedTiles, updateTiles, setMatchedPairs) => {
+export const delay = ms => new Promise(res => setTimeout(res, ms));
+
+export const doTheyMatch = async (flippedTiles, updateTiles, setMatchedPairs) => {
   const tileOne = flippedTiles[0];
   const tileTwo = flippedTiles[1];
   let bool;
@@ -17,15 +19,14 @@ export const doTheyMatch = (flippedTiles, updateTiles, setMatchedPairs) => {
     bool = true;
     type = MATCHED;
   } else {
+    await delay(1000);
     bool = false;
     type = FLIPPED;
   }
-  setTimeout(() => {
-    updateTiles(
-      tileOne.id,
-      tileTwo.id,
-      bool,
-      type,
-    );
-  }, 1000);
+  updateTiles(
+    bool,
+    type,
+    tileOne.id,
+    tileTwo.id,
+  );
 };

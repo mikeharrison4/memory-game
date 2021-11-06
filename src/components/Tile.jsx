@@ -13,14 +13,13 @@ const Tile = ({
   const handleOnClick = (e) => {
     const flippedTileId = e.currentTarget.id;
     if (flippedTiles.length && (flippedTileId === flippedTiles[0].id || flippedTiles.length === 2)) return; // returns early if the tile id is already flipped
-    updateTiles(
-      flippedTileId,
-      null,
-      true,
-      FLIPPED
-    );
     setFlippedTiles(
       flippedTiles.concat({ id: flippedTileId, iconName })
+    );
+    updateTiles(
+      true,
+      FLIPPED,
+      flippedTileId,
     );
   };
 
@@ -35,7 +34,7 @@ const Tile = ({
       >
         <div className="flip-tile-front bg-green-300" />
         <div className=
-          {`flip-tile-back text-6xl flex justify-center items-center transition duration-500 ease-in-out ${tile.matched ? 'bg-red-200' : 'bg-green-200'}`}
+          {`flip-tile-back text-6xl flex justify-center items-center transition duration-1000 ease-in-out ${tile.matched ? 'bg-red-200' : 'bg-green-200'}`}
         >
           <FontAwesomeIcon icon={tile.icon} />
         </div>

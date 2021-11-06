@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Tile from './Tile';
-import { doTheyMatch, shuffleTiles } from '../utils';
+import { delay, doTheyMatch, shuffleTiles } from '../utils';
 import GameFinish from './GameFinish';
 import { tileData } from '../constants';
 
@@ -9,18 +9,26 @@ const Grid = () => {
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
 
-  const updateTiles = useCallback((tileOneId, tileTwoId, bool, type) => {
+  const updateTiles = useCallback(async (isFlippedOrMatched, type, tileOneId, tileTwoId) => {
     const newTiles = [...tiles];
-    newTiles[tileOneId][type] = bool;
-    if (tileTwoId) newTiles[tileTwoId][type] = bool;
+    newTiles[tileOneId] = {
+      ...newTiles[tileOneId],
+      [type]: isFlippedOrMatched
+    };
+    if (tileTwoId) {
+      newTiles[tileTwoId] = {
+        ...newTiles[tileTwoId],
+        [type]: isFlippedOrMatched
+      };
+    }
     setTiles(newTiles);
   }, [tiles]);
 
   useEffect(() => {
     if (flippedTiles.length !== 2) return;
-    doTheyMatch(flippedTiles, updateTiles, setMatchedPairs);
-    setFlippedTiles([]);
-  }, [flippedTiles, updateTiles]);
+    doTheyMatch(flippedTiles, updateTiles, setMatchedPairs, setFlippedTiles)
+      .then(() => setFlippedTiles([]));
+  }, [flippedTiles]);
 
   return (
     <div className="w-full flex justify-center items-center">

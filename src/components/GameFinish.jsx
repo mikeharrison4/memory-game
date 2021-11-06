@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const GameFinish = ({ setMatchedPairs, setTiles, tileData }) => {
+
   const handleClick = () => {
-    setTiles(tileData);
+    setTiles([...tileData]);
     setMatchedPairs(0);
   };
 
