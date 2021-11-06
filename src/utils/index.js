@@ -9,24 +9,12 @@ export const shuffleTiles = (tiles) => {
 
 export const delay = ms => new Promise(res => setTimeout(res, ms));
 
-export const doTheyMatch = async (flippedTiles, updateTiles, setMatchedPairs) => {
+export const doTheyMatch = async (flippedTiles) => {
   const tileOne = flippedTiles[0];
   const tileTwo = flippedTiles[1];
-  let bool;
-  let type;
   if (tileOne.iconName === tileTwo.iconName) {
-    setMatchedPairs(prev => prev + 1);
-    bool = true;
-    type = MATCHED;
-  } else {
-    await delay(1000);
-    bool = false;
-    type = FLIPPED;
+    return true;
   }
-  updateTiles(
-    bool,
-    type,
-    tileOne.id,
-    tileTwo.id,
-  );
+  await delay(750); // time it takes for the tiles to flip back over when they did not match
+  return false;
 };
