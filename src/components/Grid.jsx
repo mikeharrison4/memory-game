@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import Tile from './Tile';
-import { doTheyMatch, shuffleTiles } from '../utils';
+import { delay, doTheyMatch, shuffleTiles } from '../utils';
 import GameFinish from './GameFinish';
 import { FLIPPED, MATCHED, tileData } from '../constants';
 import celebration from '../assets/celebration.gif';
 
 const Grid = () => {
-  const [tiles, setTiles] = useState(tileData);
+  const [tiles, setTiles] = useState(shuffleTiles([...tileData]));
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
-  const [gameWon, setGameWon] = useState(false);
+  const [gameFinished, setGameFinished] = useState(false);
 
   const flipTile = (tileId) => {
     const newTiles = [...tiles];
@@ -18,6 +18,12 @@ const Grid = () => {
       [FLIPPED]: true,
     };
     setTiles(newTiles);
+  };
+
+  const resetGame = () => {
+    setTiles(shuffleTiles([...tileData])  );
+    setMatchedPairs(0);
+    setGameFinished(false);
   };
 
   const updatePair = useCallback( (isFlippedOrMatched, type, { tileOne, tileTwo }) => {
@@ -40,10 +46,12 @@ const Grid = () => {
     (async function() {
       const isMatched = await doTheyMatch(flippedTiles);
       if (isMatched) {
-        setTimeout(() => {
-          setMatchedPairs(prev => prev + 1);
-        }, 3000);
         updatePair(true, MATCHED, tilesPair);
+        if ((matchedPairs + 1) === (tiles.length / 2)) {
+          setGameFinished(true);
+          await delay(3000);
+        }
+        setMatchedPairs(prev => prev + 1);
       } else {
         updatePair(false, FLIPPED, tilesPair);
       }
@@ -51,30 +59,31 @@ const Grid = () => {
   }, [flippedTiles, matchedPairs]);
 
   return (
-    <div className="w-full flex justify-center items-center">
-      { matchedPairs !== (tiles.length / 2)
-        ? (
-          <div className="w-2/3 grid grid-cols-4">
-            { tiles.map((tile, i) => (
-              <Tile
-                index={i}
-                key={i}
-                tile={tile}
-                flipTile={flipTile}
-                flippedTiles={flippedTiles}
-                setFlippedTiles={setFlippedTiles}
-              />
-            )) }
-          </div>
-        ) : (
-          <GameFinish
-            setMatchedPairs={setMatchedPairs}
-            setTiles={setTiles}
-            tileData={tileData}
-          />
-        )
-      }
-    </div>
+    <Fragment>
+      <div className="w-full flex justify-center items-center">
+        { gameFinished && <img src={celebration} alt='' className="absolute z-10 w-full h-full" /> }
+        { matchedPairs !== (tiles.length / 2)
+          ? (
+            <div className="w-6/12 grid grid-cols-4">
+              { tiles.map((tile, i) => (
+                <Tile
+                  index={i}
+                  key={i}
+                  tile={tile}
+                  flipTile={flipTile}
+                  flippedTiles={flippedTiles}
+                  setFlippedTiles={setFlippedTiles}
+                />
+              )) }
+            </div>
+          ) : (
+            <GameFinish
+              handleResetGame={resetGame}
+            />
+          )
+        }
+      </div>
+    </Fragment>
   );
 };
 

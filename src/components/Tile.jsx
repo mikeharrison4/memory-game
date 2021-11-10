@@ -1,6 +1,5 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FLIPPED } from '../constants';
 
 const Tile = ({
   index,
