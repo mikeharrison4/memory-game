@@ -40,22 +40,24 @@ const Grid = () => {
     setFlippedTiles([]);
   }, [tiles]);
 
+  const checkTiles = async () => {
+    const tilesPair = { tileOne: flippedTiles[0].id, tileTwo: flippedTiles[1].id };
+    const isMatched = await doTheyMatch(flippedTiles);
+    if (!isMatched) {
+      updatePair(false, FLIPPED, tilesPair);
+      return;
+    }
+    updatePair(true, MATCHED, tilesPair);
+    if ((matchedPairs + 1) === (tiles.length / 2)) {
+      setGameFinished(true);
+      await delay(3000);
+    }
+    setMatchedPairs(prev => prev + 1);
+  };
+
   useEffect(() => {
     if (flippedTiles.length !== 2) return;
-    const tilesPair = { tileOne: flippedTiles[0].id, tileTwo: flippedTiles[1].id };
-    (async function() {
-      const isMatched = await doTheyMatch(flippedTiles);
-      if (isMatched) {
-        updatePair(true, MATCHED, tilesPair);
-        if ((matchedPairs + 1) === (tiles.length / 2)) {
-          setGameFinished(true);
-          await delay(3000);
-        }
-        setMatchedPairs(prev => prev + 1);
-      } else {
-        updatePair(false, FLIPPED, tilesPair);
-      }
-    })();
+    checkTiles();
   }, [flippedTiles, matchedPairs]);
 
   return (

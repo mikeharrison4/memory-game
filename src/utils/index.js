@@ -1,5 +1,3 @@
-import { FLIPPED, MATCHED } from '../constants';
-
 export const shuffleTiles = (tiles) => {
   return tiles
     .map((value) => ({ value, sort: Math.random() }))
