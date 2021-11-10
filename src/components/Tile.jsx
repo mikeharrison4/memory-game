@@ -17,9 +17,7 @@ const Tile = ({
   };
 
   return (
-    <div
-      className="flip-tile flex flex-col h-32 m-2 cursor-pointer"
-    >
+    <div className="flip-tile flex flex-col h-32 m-2 cursor-pointer">
       <div
         id={index}
         onClick={handleClickTile}

@@ -4,9 +4,13 @@ import GameFinish from './GameFinish';
 import { FLIPPED, MATCHED, tileData } from '../constants';
 import { delay, doTheyMatch, shuffleTiles } from '../utils';
 import celebration from '../assets/celebration.gif';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTiles } from '../redux/reducers/tilesReducer';
 
 const Grid = () => {
-  const [tiles, setTiles] = useState(shuffleTiles([...tileData]));
+  const tiles = useSelector((state) => state.tiles);
+  const dispatch = useDispatch();
+  // const [tiles, setTiles] = useState(shuffleTiles([...tileData]));
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameFinished, setGameFinished] = useState(false);
