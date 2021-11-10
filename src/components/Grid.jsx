@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import Tile from './Tile';
-import { delay, doTheyMatch, shuffleTiles } from '../utils';
 import GameFinish from './GameFinish';
 import { FLIPPED, MATCHED, tileData } from '../constants';
+import { delay, doTheyMatch, shuffleTiles } from '../utils';
 import celebration from '../assets/celebration.gif';
 
 const Grid = () => {
@@ -28,14 +28,12 @@ const Grid = () => {
 
   const updatePair = useCallback( (isFlippedOrMatched, type, { tileOne, tileTwo }) => {
     const newTiles = [...tiles];
-    newTiles[tileOne] = {
-      ...newTiles[tileOne],
-      [type]: isFlippedOrMatched
-    };
-    newTiles[tileTwo] = {
-      ...newTiles[tileTwo],
-      [type]: isFlippedOrMatched
-    };
+    [tileOne, tileTwo].forEach(tile => {
+      newTiles[tile] = {
+        ...newTiles[tile],
+        [type]: isFlippedOrMatched,
+      };
+    });
     setTiles(newTiles);
     setFlippedTiles([]);
   }, [tiles]);
@@ -62,29 +60,27 @@ const Grid = () => {
 
   return (
     <Fragment>
-      <div className="w-full flex justify-center items-center">
-        { gameFinished && <img src={celebration} alt='' className="absolute z-10 w-full h-full" /> }
-        { matchedPairs !== (tiles.length / 2)
-          ? (
-            <div className="w-6/12 grid grid-cols-4">
-              { tiles.map((tile, i) => (
-                <Tile
-                  index={i}
-                  key={i}
-                  tile={tile}
-                  flipTile={flipTile}
-                  flippedTiles={flippedTiles}
-                  setFlippedTiles={setFlippedTiles}
-                />
-              )) }
-            </div>
-          ) : (
-            <GameFinish
-              handleResetGame={resetGame}
-            />
-          )
-        }
-      </div>
+      { gameFinished && <img src={celebration} alt='' className="absolute z-10 w-full h-full" /> }
+      { matchedPairs !== (tiles.length / 2)
+        ? (
+          <div className="w-6/12 grid grid-cols-4">
+            { tiles.map((tile, i) => (
+              <Tile
+                index={i}
+                key={i}
+                tile={tile}
+                flipTile={flipTile}
+                flippedTiles={flippedTiles}
+                setFlippedTiles={setFlippedTiles}
+              />
+            )) }
+          </div>
+        ) : (
+          <GameFinish
+            handleResetGame={resetGame}
+          />
+        )
+      }
     </Fragment>
   );
 };

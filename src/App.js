@@ -4,7 +4,9 @@ import Grid from './components/Grid';
 function App() {
   return (
     <div className="h-screen flex">
-      <Grid />
+      <div className="w-full flex justify-center items-center">
+        <Grid />
+      </div>
     </div>
   );
 }
