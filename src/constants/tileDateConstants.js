@@ -7,10 +7,7 @@ import {
   faSquare
 } from '@fortawesome/free-solid-svg-icons';
 
-export const MATCHED = 'matched';
-export const FLIPPED = 'flipped';
-
-export const tileData = [
+const tileData = [
   {
     icon: faSquare,
     flipped: false,
@@ -92,3 +89,5 @@ export const tileData = [
     matched: false,
   },
 ];
+
+export default tileData;

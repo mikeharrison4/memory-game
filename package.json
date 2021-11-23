@@ -91,6 +91,9 @@
       "last 1 safari version"
     ]
   },
+  "peerDependencies": {
+    "react-spring": "^8.0.27"
+  },
   "devDependencies": {
     "autoprefixer": "^9.8.8",
     "postcss": "^7.0.39",

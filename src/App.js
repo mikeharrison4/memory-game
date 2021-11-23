@@ -1,12 +1,10 @@
 import React from 'react';
-import Grid from './components/Grid';
+import Game from './components/Game';
 
 function App() {
   return (
     <div className="h-screen flex">
-      <div className="w-full flex justify-center items-center">
-        <Grid />
-      </div>
+        <Game />
     </div>
   );
 }
