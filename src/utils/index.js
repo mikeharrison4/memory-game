@@ -1,7 +1,7 @@
 import GameLives from '../components/GameModes/GameLives';
 import GameTimer from '../components/GameModes/GameTimer';
 import React from 'react';
-import { LIVES, TIMER } from '../constants/modes';
+import { LIVES, TIMER } from '../constants/modeConstants';
 
 export const shuffleTiles = (tiles) => {
   return tiles

@@ -1,10 +1,10 @@
 import React from 'react';
-import Game from './components/Game';
+import GameContainer from './components/Game/GameContainer';
 
 function App() {
   return (
     <div className="h-screen flex">
-        <Game />
+      <GameContainer />
     </div>
   );
 }

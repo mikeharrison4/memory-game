@@ -4,6 +4,7 @@ import flippedTilesReducer from './reducers/flippedTilesReducer';
 import matchedPairsReducer from './reducers/matchedPairsReducer';
 import modeConfigReducer from './reducers/modeConfigReducer';
 import countdownReducer from './reducers/countdownReducer';
+import gameFinishedResultReducer from './reducers/gameFinishedResultReducer';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     showCountdown: countdownReducer,
     tiles: tilesReducer,
     flippedTiles: flippedTilesReducer,
-    matchedPairs: matchedPairsReducer
+    matchedPairs: matchedPairsReducer,
+    gameFinishedResult: gameFinishedResultReducer,
   },
 });

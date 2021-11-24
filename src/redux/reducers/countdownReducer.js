@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = false;
 
 export const countdownReducer = createSlice({
-  name: 'tiles',
+  name: 'countdown',
   initialState,
   reducers: {
     setShowCountdown: (_, action) => action.payload,

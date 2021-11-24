@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import Tile from './Tile';
 import GameFinish from './GameFinish';
-import { FLIPPED, MATCHED } from '../constants/tileActionConstants';
-import { delay, doTheyMatch, shuffleTiles } from '../utils';
+import { FLIPPED, MATCHED } from '../../constants/tileActionConstants';
+import { delay, doTheyMatch } from '../../utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTiles } from '../redux/reducers/tilesReducer';
-import { setFlippedTiles, clearFlippedTiles } from '../redux/reducers/flippedTilesReducer';
-import { setMatchedPairs, resetMatchedPairs } from '../redux/reducers/matchedPairsReducer';
-import celebration from '../assets/celebration.gif';
-import tileData from '../constants/tileDateConstants';
-import { decrementTotalLives } from '../redux/reducers/modeConfigReducer';
+import { setTiles } from '../../redux/reducers/tilesReducer';
+import { setFlippedTiles, clearFlippedTiles } from '../../redux/reducers/flippedTilesReducer';
+import { setMatchedPairs } from '../../redux/reducers/matchedPairsReducer';
+import celebration from '../../assets/celebration.gif';
+import { decrementTotalLives } from '../../redux/reducers/modeConfigReducer';
+import { setGameFinishedResult } from '../../redux/reducers/gameFinishedResultReducer';
+import { LOST, WON } from '../../constants/gameFinishedResultConstants';
 
 const Grid = () => {
   const dispatch = useDispatch();
   const tiles = useSelector(({ tiles }) => tiles);
   const flippedTiles = useSelector(({ flippedTiles }) => flippedTiles);
   const matchedPairs = useSelector(({ matchedPairs }) => matchedPairs);
-
-  const [gameFinished, setGameFinished] = useState(false);
+  const gameFinishedResult = useSelector(({ gameFinishedResult }) => gameFinishedResult);
 
   const flipTile = (tileId) => {
     const newTiles = [...tiles];
@@ -26,12 +26,6 @@ const Grid = () => {
       [FLIPPED]: true,
     };
     dispatch(setTiles(newTiles));
-  };
-
-  const resetGame = () => {
-    dispatch(setTiles(shuffleTiles([...tileData])));
-    dispatch(resetMatchedPairs());
-    setGameFinished(false);
   };
 
   const updatePair = useCallback( (isFlippedOrMatched, type, { tileOne, tileTwo }) => {
@@ -46,9 +40,9 @@ const Grid = () => {
     dispatch(clearFlippedTiles());
   }, [tiles]);
 
-  const isGameFinished = async () => {
+  const isGameWon = async () => {
     if ((matchedPairs + 1) === (tiles.length / 2)) {
-      setGameFinished(true);
+      dispatch(setGameFinishedResult(WON));
       await delay(3000);
     }
   };
@@ -62,7 +56,7 @@ const Grid = () => {
       return;
     }
     updatePair(true, MATCHED, tilesPair);
-    await isGameFinished();
+    await isGameWon();
     dispatch(setMatchedPairs());
   };
 
@@ -71,9 +65,13 @@ const Grid = () => {
     checkPair();
   }, [flippedTiles, matchedPairs]);
 
+  if (gameFinishedResult === LOST) {
+    return <GameFinish />;
+  }
+
   return (
     <Fragment>
-      { gameFinished && <img src={celebration} alt='Celebration' className="absolute z-10 w-full h-full" /> }
+      { gameFinishedResult === WON && <img src={celebration} alt='Celebration' className="absolute z-10 w-full h-full" /> }
       { matchedPairs !== (tiles.length / 2)
         ? (
           <div className="w-6/12 grid grid-cols-4">
@@ -89,7 +87,7 @@ const Grid = () => {
             )) }
           </div>
         ) : (
-          <GameFinish handleResetGame={resetGame} />
+          <GameFinish />
         )
       }
     </Fragment>

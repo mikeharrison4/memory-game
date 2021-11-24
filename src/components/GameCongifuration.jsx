@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSpring, animated } from 'react-spring';
 import { setShowCountdown } from '../redux/reducers/countdownReducer';
-import { LIVES, TIMER } from '../constants/modes';
+import { LIVES, TIMER } from '../constants/modeConstants';
 
 const gameModeButtons = [
   {

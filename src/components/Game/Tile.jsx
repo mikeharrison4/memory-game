@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFlippedTiles } from '../redux/reducers/flippedTilesReducer';
+import { setFlippedTiles } from '../../redux/reducers/flippedTilesReducer';
 
 const Tile = ({
   index,
