@@ -7,13 +7,36 @@ import { duration, endingNumber, startingNumber, delay } from '../../constants/c
 import { delay as syncDelay } from '../../utils';
 
 
-const Countdown = ({ modePicked }) => {
-  const dispatch = useDispatch();
+// const Countdown = ({ modePicked }) => {
+//   const dispatch = useDispatch();
+//
+//   const handleAfterCountdown = async () => {
+//     await syncDelay(500);
+//     dispatch(setModeConfig(modePicked));
+//     dispatch(setShowCountdown(false));
+//   };
+//
+//   return (
+//     <Spring
+//       from={{ number: startingNumber }}
+//       to={{ number: endingNumber }}
+//       config={{ duration }}
+//       delay={delay}
+//       onRest={handleAfterCountdown}
+//     >
+//       { ({ number }) => (
+//         <div className='absolute z-10 text-9xl left-2/4 transform -translate-x-1/2'>
+//           {number.toFixed()}
+//         </div>
+//       )}
+//     </Spring>
+//   );
+// };
 
+const Countdown = ({ setShowCountdown }) => {
   const handleAfterCountdown = async () => {
     await syncDelay(500);
-    dispatch(setModeConfig(modePicked));
-    dispatch(setShowCountdown(false));
+    setShowCountdown(false);
   };
 
   return (
@@ -28,7 +51,7 @@ const Countdown = ({ modePicked }) => {
         <div className='absolute z-10 text-9xl left-2/4 transform -translate-x-1/2'>
           {number.toFixed()}
         </div>
-      )}
+      ) }
     </Spring>
   );
 };

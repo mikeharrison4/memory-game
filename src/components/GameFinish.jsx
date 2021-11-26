@@ -9,10 +9,8 @@ import { clearModeConfig } from '../redux/reducers/modeConfigReducer';
 import { WON } from '../constants/gameFinishedResultConstants';
 import { LIVES } from '../constants/modeConstants';
 
-const GameFinish = ({ setShowCelebration }) => {
+const GameFinish = ({ modeConfig, gameFinishedResult, setShowCelebration }) => {
   const dispatch = useDispatch();
-  const modeConfig = useSelector(({ modeConfig }) => modeConfig);
-  const gameFinishedResult = useSelector(({ gameFinishedResult }) => gameFinishedResult);
   let renderStr;
 
   const handleResetGame = () => {

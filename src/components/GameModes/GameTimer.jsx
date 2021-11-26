@@ -1,26 +1,22 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGameFinishedResult } from '../../redux/reducers/gameFinishedResultReducer';
 import { LOST } from '../../constants/gameFinishedResultConstants';
-import { decrementRemaining, setTotalTimeLeft } from '../../redux/reducers/modeConfigReducer';
 
-const GameTimer = () => {
-  const dispatch = useDispatch();
-  const modeConfig = useSelector(({ modeConfig }) => modeConfig);
-  const gameFinishedResult = useSelector(({ gameFinishedResult }) => gameFinishedResult);
-
+const GameTimer = ({
+  modeConfig,
+  decrementRemaining,
+  gameFinishedResult,
+  setGameFinishedResult
+}) => {
   useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(decrementRemaining());
+    const timerSeconds = setInterval(() => {
+      decrementRemaining({ ...modeConfig, remaining: modeConfig.remaining - 1 });
     }, 1000);
-    return () => clearInterval(interval);
-  }, [gameFinishedResult, dispatch]);
-
-  useEffect(() => {
     if (modeConfig.remaining === 0) {
-      dispatch(setGameFinishedResult(LOST));
+      clearInterval(timerSeconds);
+      setGameFinishedResult(LOST);
     }
-  }, [modeConfig.remaining, dispatch]);
+    return () => clearInterval(timerSeconds);
+  }, [modeConfig.remaining]);
 
   return (
     <div className="text-center">

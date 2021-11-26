@@ -5,24 +5,28 @@ import ModeChoices from './ModeChoices';
 import Countdown from './Countdown/Countdown';
 import { renderMode } from '../utils';
 
-const GameContainer = () => {
+const GameContainer = ({ children }) => {
   const modeConfig = useSelector(({ modeConfig }) => modeConfig);
   const showCountdown = useSelector(({ showCountdown }) => showCountdown);
   const gameFinishedResult = useSelector(({ gameFinishedResult }) => gameFinishedResult);
   const [modePicked, setModePicked] = useState('');
 
   return (
-    <div className={`w-full flex justify-center items-center relative ${modeConfig ? 'flex-col' : ''}`}>
-      { !modeConfig
-        ? <ModeChoices setModePicked={setModePicked} />
-        : (
-          !gameFinishedResult && renderMode(modePicked)
-        )
-      }
-      { showCountdown && <Countdown modePicked={modePicked} /> }
-      <Grid />
-    </div>
+    children
   );
+
+  // return (
+  //   <>
+  //     { !modeConfig
+  //       ? <ModeChoices setModePicked={setModePicked} />
+  //       : (
+  //         !gameFinishedResult && renderMode(modePicked)
+  //       )
+  //     }
+  //     { showCountdown && <Countdown modePicked={modePicked} /> }
+  //     <Grid />
+  //   </>
+  // );
 };
 
 export default GameContainer;

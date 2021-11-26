@@ -1,17 +1,12 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGameFinishedResult } from '../../redux/reducers/gameFinishedResultReducer';
 import { LOST } from '../../constants/gameFinishedResultConstants';
 
-const GameLives = () => {
-  const dispatch = useDispatch();
-  const modeConfig = useSelector(({ modeConfig }) => modeConfig);
-
+const GameLives = ({ modeConfig, setGameFinishedResult }) => {
   React.useEffect(() => {
     if (modeConfig.remaining === 0) {
-      dispatch(setGameFinishedResult(LOST));
+      setGameFinishedResult(LOST);
     }
-  }, [modeConfig.remaining, dispatch]);
+  }, [modeConfig.remaining]);
 
   return (
     <div className="text-center">
