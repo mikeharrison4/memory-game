@@ -1,6 +1,6 @@
 const countdownConfig = {
   duration: 1000,
-  startingNumber: 5,
+  startingNumber: 3,
   endingNumber: 1,
   delay: 500,
 };

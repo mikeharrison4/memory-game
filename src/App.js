@@ -37,23 +37,23 @@ function App() {
   return (
     <div className="h-screen flex">
       <div className={`w-full flex justify-center items-center relative ${modeConfig ? 'flex-col' : ''}`}>
-        <GameContainer>
-          <ModeChoices
-            mode={modes[mode]}
-            setMode={setMode}
-            setShowCountdown={setShowCountdown}
-            showCountdown={showCountdown}
-            gameFinishedResult={gameFinishedResult}
-          />
-          { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
-          <Grid
-            modeConfig={modeConfig}
-            decrementRemaining={setModeConfig}
-            showCountdown={showCountdown}
-            gameFinishedResult={gameFinishedResult}
-            gameFinish={gameFinish}
-          />
-        </GameContainer>
+        {/*<GameContainer>*/}
+        <ModeChoices
+          mode={modes[mode]}
+          setMode={setMode}
+          setShowCountdown={setShowCountdown}
+          showCountdown={showCountdown}
+          gameFinishedResult={gameFinishedResult}
+        />
+        { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
+        <Grid
+          modeConfig={modeConfig}
+          decrementRemaining={setModeConfig}
+          showCountdown={showCountdown}
+          gameFinishedResult={gameFinishedResult}
+          gameFinish={gameFinish}
+        />
+        {/*</GameContainer>*/}
       </div>
     </div>
   );

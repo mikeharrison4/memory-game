@@ -4,7 +4,6 @@ import { LOST } from '../../constants/gameFinishedResultConstants';
 const GameTimer = ({
   modeConfig,
   decrementRemaining,
-  gameFinishedResult,
   setGameFinishedResult
 }) => {
   useEffect(() => {

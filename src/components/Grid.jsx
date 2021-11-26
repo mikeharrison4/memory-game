@@ -143,7 +143,7 @@ const Grid = ({
   return (
     <Fragment>
       {/*{ showCelebration && <img src={celebration} alt='Celebration' className="absolute z-10 w-full h-full" /> }*/}
-      <div className="w-6/12 grid grid-cols-4">
+      <div className="ml-2 w-6/12 grid grid-cols-4">
         { tiles.map((tile, i) => (
           <Tile
             index={i}
