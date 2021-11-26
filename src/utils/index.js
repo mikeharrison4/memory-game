@@ -22,7 +22,7 @@ export const doTheyMatch = async (flippedTiles) => {
   return false;
 };
 
-export const getGameMode = (modePicked) => {
+export const renderMode = (modePicked) => {
   switch (modePicked) {
     case LIVES:
       return <GameLives />;

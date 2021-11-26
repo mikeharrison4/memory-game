@@ -9,13 +9,17 @@ export const modeConfigReducer = createSlice({
   reducers: {
     setModeConfig: (_, action) => ({ ...modeConstants[action.payload] }),
     clearModeConfig: () => initialState,
-    decrementTotalLives: (state) => ({
+    decrementRemaining: state => ({
       ...state,
-      totalLives: state.totalLives - 1,
-    })
+      remaining: state.remaining - 1,
+    }),
   },
 });
 
-export const { setModeConfig, clearModeConfig, decrementTotalLives } = modeConfigReducer.actions;
+export const {
+  setModeConfig,
+  clearModeConfig,
+  decrementRemaining,
+} = modeConfigReducer.actions;
 
 export default modeConfigReducer.reducer;

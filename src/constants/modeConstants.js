@@ -3,11 +3,15 @@ export const TIMER = 'timer';
 
 export const modeConstants = {
   lives: {
-    mode: 'lives',
-    totalLives: 2,
+    mode: LIVES,
+    remaining: 2,
   },
   timer: {
-    mode: 'timer',
-    totalTime: 3000,
+    mode: TIMER,
+    remaining: 3, // seconds
   }
 };
+
+// export const modeStrings = {
+//
+// }

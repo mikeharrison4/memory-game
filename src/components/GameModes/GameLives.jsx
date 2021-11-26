@@ -8,14 +8,14 @@ const GameLives = () => {
   const modeConfig = useSelector(({ modeConfig }) => modeConfig);
 
   React.useEffect(() => {
-    if (modeConfig.totalLives === 0) {
+    if (modeConfig.remaining === 0) {
       dispatch(setGameFinishedResult(LOST));
     }
-  }, [modeConfig.totalLives]);
+  }, [modeConfig.remaining, dispatch]);
 
   return (
     <div className="text-center">
-      <h3 className="text-4xl">{modeConfig.totalLives}</h3>
+      <h3 className="text-4xl">{modeConfig.remaining}</h3>
       <span>lives remaining</span>
     </div>
   );

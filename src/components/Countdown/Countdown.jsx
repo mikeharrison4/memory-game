@@ -10,7 +10,7 @@ import { delay as syncDelay } from '../../utils';
 const Countdown = ({ modePicked }) => {
   const dispatch = useDispatch();
 
-  const handleOnRest = async () => {
+  const handleAfterCountdown = async () => {
     await syncDelay(500);
     dispatch(setModeConfig(modePicked));
     dispatch(setShowCountdown(false));
@@ -22,7 +22,7 @@ const Countdown = ({ modePicked }) => {
       to={{ number: endingNumber }}
       config={{ duration }}
       delay={delay}
-      onRest={handleOnRest}
+      onRest={handleAfterCountdown}
     >
       { ({ number }) => (
         <div className='absolute z-10 text-9xl left-2/4 transform -translate-x-1/2'>

@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameFinishedResult } from '../../redux/reducers/gameFinishedResultReducer';
 import { LOST } from '../../constants/gameFinishedResultConstants';
+import { decrementRemaining, setTotalTimeLeft } from '../../redux/reducers/modeConfigReducer';
 
 const GameTimer = () => {
   const dispatch = useDispatch();
   const modeConfig = useSelector(({ modeConfig }) => modeConfig);
   const gameFinishedResult = useSelector(({ gameFinishedResult }) => gameFinishedResult);
-  const [timeLeft, setTimeLeft] = useState(modeConfig.totalTime / 1000);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
+      dispatch(decrementRemaining());
     }, 1000);
-    if (gameFinishedResult) {
-      clearInterval(interval);
-    }
-    if (timeLeft === 0) {
+    return () => clearInterval(interval);
+  }, [gameFinishedResult, dispatch]);
+
+  useEffect(() => {
+    if (modeConfig.remaining === 0) {
       dispatch(setGameFinishedResult(LOST));
     }
-    return () => clearInterval(interval);
-  }, [timeLeft, gameFinishedResult]);
+  }, [modeConfig.remaining, dispatch]);
 
   return (
     <div className="text-center">
-      <h3 className="text-4xl">{timeLeft}</h3>
+      <h3 className="text-4xl">{modeConfig.remaining}</h3>
       <span>seconds remaining</span>
     </div>
   );

@@ -15,7 +15,7 @@ const gameModeButtons = [
   }
 ];
 
-const GameConfiguration = ({ setModePicked }) => {
+const ModeChoices = ({ setModePicked }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
 
@@ -46,4 +46,4 @@ const GameConfiguration = ({ setModePicked }) => {
   );
 };
 
-export default GameConfiguration;
+export default ModeChoices;
