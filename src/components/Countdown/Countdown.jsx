@@ -1,35 +1,29 @@
-import React from 'react';
-import { setModeConfig } from '../../redux/reducers/modeConfigReducer';
-import { Spring } from 'react-spring/renderprops-universal';
-import { useDispatch } from 'react-redux';
-import { setShowCountdown } from '../../redux/reducers/countdownReducer';
-import { duration, endingNumber, startingNumber, delay } from '../../constants/countdownConfigConstants';
-import { delay as syncDelay } from '../../utils';
+import React, { useState } from 'react';
+import { startingNumber } from '../../constants/countdownConfigConstants';
+import { useSpring, animated } from 'react-spring';
 
+const Countdown = ({ setShowCountdown }) => {
+  const [countdownTimer, setCountdownTimer] = useState(startingNumber);
+  const [animationActive, setAnimationActive] = useState(false);
 
-const Countdown = ({ modePicked }) => {
-  const dispatch = useDispatch();
+  const contentProps = useSpring({
+    opacity: animationActive ? 1 : 0,
+    marginLeft: animationActive ? 0 : 100,
+  });
 
-  const handleAfterCountdown = async () => {
-    await syncDelay(500);
-    dispatch(setModeConfig(modePicked));
-    dispatch(setShowCountdown(false));
-  };
+  React.useEffect(() => {
+    setAnimationActive(true);
+    const countdownInterval = setInterval(() => {
+      setCountdownTimer(prev => prev - 1);
+    }, 1000);
+    if (countdownTimer === 0) setShowCountdown(false);
+    return () => clearInterval(countdownInterval);
+  }, [setShowCountdown, countdownTimer]);
 
   return (
-    <Spring
-      from={{ number: startingNumber }}
-      to={{ number: endingNumber }}
-      config={{ duration }}
-      delay={delay}
-      onRest={handleAfterCountdown}
-    >
-      { ({ number }) => (
-        <div className='absolute z-10 text-9xl left-2/4 transform -translate-x-1/2'>
-          {number.toFixed()}
-        </div>
-      )}
-    </Spring>
+    <div className='absolute z-10 text-9xl left-2/4 transform -translate-x-1/2'>
+      <animated.span className="block" style={contentProps}>{countdownTimer}</animated.span>
+    </div>
   );
 };
 
