@@ -1,21 +1,17 @@
 import React, { useEffect } from 'react';
-import { LOST } from '../../constants/gameFinishedResultConstants';
 
 const GameTimer = ({
   modeConfig,
-  decrementRemaining,
-  setGameFinishedResult
+  setModeConfig,
+  stopTimer,
 }) => {
   useEffect(() => {
     const timerSeconds = setInterval(() => {
-      decrementRemaining({ ...modeConfig, remaining: modeConfig.remaining - 1 });
+      setModeConfig({ ...modeConfig, remaining: modeConfig.remaining - 1 });
     }, 1000);
-    if (modeConfig.remaining === 0) {
-      clearInterval(timerSeconds);
-      setGameFinishedResult(LOST);
-    }
+    if (stopTimer) clearInterval(timerSeconds);
     return () => clearInterval(timerSeconds);
-  }, [modeConfig.remaining]);
+  }, [modeConfig, stopTimer]);
 
   return (
     <div className="text-center">

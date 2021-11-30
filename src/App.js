@@ -1,43 +1,61 @@
 import React, { useState } from 'react';
-import GameContainer from './components/GameContainer';
 import ModeChoices from './components/ModeChoices';
-import { modeConstants } from './constants/modeConstants';
+import { modeConfigConstants } from './constants/modeConstants';
 import Countdown from './components/Countdown/Countdown';
 import GameLives from './components/GameModes/GameLives';
 import GameTimer from './components/GameModes/GameTimer';
 import Grid from './components/Grid';
 import GameFinish from './components/GameFinish';
+import { LOST } from './constants/gameFinishedResultConstants';
 
 function App() {
   const [modeConfig, setModeConfig] = useState(null);
   const [mode, setMode] = useState('');
   const [showCountdown, setShowCountdown] = useState(false);
   const [gameFinishedResult, setGameFinishedResult] = useState('');
+  const [stopTimer, setStopTimer] = useState(false);
 
   React.useEffect(() => {
-    setModeConfig(modeConstants[mode]);
+    setModeConfig(modeConfigConstants[mode]);
   }, [mode]);
 
-  const gameFinish = <GameFinish modeConfig={modeConfig} gameFinishedResult={gameFinishedResult} />;
+  React.useEffect(() => {
+    if (modeConfig && modeConfig.remaining === 0) {
+      setGameFinishedResult(LOST);
+    }
+  }, [modeConfig]);
 
   const modes = {
     lives:
-      <GameLives
-        modeConfig={modeConfig}
-        setGameFinishedResult={setGameFinishedResult}
-      />,
+      <GameLives modeConfig={modeConfig} />,
     timer:
       <GameTimer
         modeConfig={modeConfig}
-        decrementRemaining={setModeConfig}
-        setGameFinishedResult={setGameFinishedResult}
+        setModeConfig={setModeConfig}
+        stopTimer={stopTimer}
       />
   };
+
+  if (gameFinishedResult) {
+    const handleResetGame = () => {
+      setModeConfig(null);
+      setGameFinishedResult(null);
+    };
+
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <GameFinish
+          modeConfig={modeConfig}
+          gameFinishedResult={gameFinishedResult}
+          handleResetGame={handleResetGame}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex">
       <div className={`w-full flex justify-center items-center relative ${modeConfig ? 'flex-col' : ''}`}>
-        {/*<GameContainer>*/}
         <ModeChoices
           mode={modes[mode]}
           setMode={setMode}
@@ -48,12 +66,11 @@ function App() {
         { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
         <Grid
           modeConfig={modeConfig}
-          decrementRemaining={setModeConfig}
+          setModeConfig={setModeConfig}
           showCountdown={showCountdown}
-          gameFinishedResult={gameFinishedResult}
-          gameFinish={gameFinish}
+          setGameFinishedResult={setGameFinishedResult}
+          setStopTimer={setStopTimer}
         />
-        {/*</GameContainer>*/}
       </div>
     </div>
   );

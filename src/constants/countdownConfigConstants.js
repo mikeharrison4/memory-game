@@ -1,10 +1,9 @@
 const countdownConfig = {
-  duration: 1000,
   startingNumber: 3,
   endingNumber: 1,
   delay: 500,
 };
 
-const { duration, startingNumber, endingNumber, delay } = countdownConfig;
+const { startingNumber, endingNumber } = countdownConfig;
 
-export { duration, startingNumber, endingNumber, delay };
+export { startingNumber, endingNumber };

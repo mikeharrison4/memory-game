@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { LIVES, TIMER } from '../constants/modeConstants';
-
-const gameModeButtons = [
-  {
-    id: LIVES,
-    label: 'Single player (lives mode)',
-  },
-  {
-    id: TIMER,
-    label: 'Single player (timer mode)',
-  }
-];
+import { gameModeButtons } from '../constants/modeConstants';
 
 const ModeChoices = ({
   mode,
