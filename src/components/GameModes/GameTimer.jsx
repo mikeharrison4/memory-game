@@ -11,7 +11,7 @@ const GameTimer = ({
     }, 1000);
     if (stopTimer) clearInterval(timerSeconds);
     return () => clearInterval(timerSeconds);
-  }, [modeConfig, stopTimer]);
+  }, [setModeConfig, modeConfig, stopTimer]);
 
   return (
     <div className="text-center">

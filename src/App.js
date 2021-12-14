@@ -10,9 +10,9 @@ import { LOST } from './constants/gameFinishedResultConstants';
 
 function App() {
   const [modeConfig, setModeConfig] = useState(null);
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState(null);
   const [showCountdown, setShowCountdown] = useState(false);
-  const [gameFinishedResult, setGameFinishedResult] = useState('');
+  const [gameFinishedResult, setGameFinishedResult] = useState(null);
   const [stopTimer, setStopTimer] = useState(false);
 
   React.useEffect(() => {
@@ -38,8 +38,10 @@ function App() {
 
   if (gameFinishedResult) {
     const handleResetGame = () => {
+      setMode(null);
       setModeConfig(null);
       setGameFinishedResult(null);
+      setStopTimer(false);
     };
 
     return (
