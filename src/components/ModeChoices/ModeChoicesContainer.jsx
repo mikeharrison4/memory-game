@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { gameModeButtons } from '../constants/modeConstants';
+import { multiplayerGameModeButtons, singleGameModeButtons } from '../../constants/modeConstants';
+import ModeButton from './ModeButton';
 
-const ModeChoices = ({
+const ModeChoicesContainer = ({
   mode,
   setMode,
   showCountdown,
@@ -36,19 +37,29 @@ const ModeChoices = ({
 
   return (
     <div className="flex flex-col">
-      { gameModeButtons.map(({ id, label }) => (
-        <animated.button
-          style={contentProps}
-          key={id}
-          onClick={handleClick}
-          value={id}
-          className="bg-blue-500 w-64 text-3xl hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mb-2"
-        >
-          { label }
-        </animated.button>
-      )) }
+      <div className="flex flex-col">
+        { singleGameModeButtons.map(({ id, label }) => (
+          <ModeButton
+            id={id}
+            label={label}
+            contentProps={contentProps}
+            handleClick={handleClick}
+          />
+        )) }
+      </div>
+      <div className="flex flex-col mt-auto">
+        { multiplayerGameModeButtons.map(({ id, label, className }) => (
+          <ModeButton
+            id={id}
+            label={label}
+            contentProps={contentProps}
+            handleClick={handleClick}
+            className={className}
+          />
+        )) }
+      </div>
     </div>
   );
 };
 
-export default ModeChoices;
+export default ModeChoicesContainer;

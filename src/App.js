@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import ModeChoices from './components/ModeChoices';
-import { modeConfigConstants } from './constants/modeConstants';
+import { modeConfigConstants, LIVES, TIMER, MULTIPLAYER } from './constants/modeConstants';
 import Countdown from './components/Countdown/Countdown';
 import GameLives from './components/GameModes/GameLives';
 import GameTimer from './components/GameModes/GameTimer';
 import Grid from './components/Grid';
 import GameFinish from './components/GameFinish';
 import { LOST } from './constants/gameFinishedResultConstants';
+import ModeChoicesContainer from './components/ModeChoices/ModeChoicesContainer';
 
 function App() {
   const [modeConfig, setModeConfig] = useState(null);
@@ -26,14 +26,20 @@ function App() {
   }, [modeConfig]);
 
   const modes = {
-    lives:
+    [LIVES]:
       <GameLives modeConfig={modeConfig} />,
-    timer:
+    [TIMER]:
       <GameTimer
         modeConfig={modeConfig}
         setModeConfig={setModeConfig}
         stopTimer={stopTimer}
-      />
+      />,
+    [MULTIPLAYER]:
+      <GameTimer
+        modeConfig={modeConfig}
+        setModeConfig={setModeConfig}
+        stopTimer={stopTimer}
+      />,
   };
 
   if (gameFinishedResult) {
@@ -56,23 +62,25 @@ function App() {
   }
 
   return (
-    <div className="h-screen flex">
-      <div className={`w-full flex justify-center items-center relative ${modeConfig ? 'flex-col' : ''}`}>
-        <ModeChoices
-          mode={modes[mode]}
-          setMode={setMode}
-          setShowCountdown={setShowCountdown}
-          showCountdown={showCountdown}
-          gameFinishedResult={gameFinishedResult}
-        />
-        { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
-        <Grid
-          modeConfig={modeConfig}
-          setModeConfig={setModeConfig}
-          showCountdown={showCountdown}
-          setGameFinishedResult={setGameFinishedResult}
-          setStopTimer={setStopTimer}
-        />
+    <div className='h-screen flex items-center justify-center'>
+      <div className="w-full">
+        <div className={`flex justify-center ${modeConfig ? 'flex-col items-center' : ''}`}>
+          <ModeChoicesContainer
+            mode={modes[mode]}
+            setMode={setMode}
+            setShowCountdown={setShowCountdown}
+            showCountdown={showCountdown}
+            gameFinishedResult={gameFinishedResult}
+          />
+          { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
+          <Grid
+            modeConfig={modeConfig}
+            setModeConfig={setModeConfig}
+            showCountdown={showCountdown}
+            setGameFinishedResult={setGameFinishedResult}
+            setStopTimer={setStopTimer}
+          />
+        </div>
       </div>
     </div>
   );
