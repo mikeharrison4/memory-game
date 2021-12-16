@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
-import { multiplayerGameModeButtons, singleGameModeButtons } from '../../constants/modeConstants';
+import { useSpring } from 'react-spring';
+import { MULTIPLAYER, multiplayerGameModeButtons, singleGameModeButtons } from '../../constants/modeConstants';
 import ModeButton from './ModeButton';
+import { animated } from 'react-spring';
+import MultiplayerSidebar from './MultiplayerSidebar';
 
-const ModeChoicesContainer = ({
+const SidebarContainer = ({
   mode,
   setMode,
   showCountdown,
@@ -12,21 +14,24 @@ const ModeChoicesContainer = ({
 }) => {
   const [animationActive, setAnimationActive] = useState(false);
   const [localMode, setLocalMode] = useState('');
+  const [multiplayerName, setMultiplayerName] = useState('');
 
   const contentProps = useSpring({
-    marginLeft: animationActive ? -400 : 0,
+    marginLeft: animationActive ? -270 : 0,
     opacity: animationActive ? 0 : 1,
     onRest: () => handleOnRest(),
   });
 
-  const handleClick = e => {
+  const handleModeClick = e => {
     setLocalMode(e.target.value);
-    setAnimationActive(!animationActive);
+    if (e.target.value !== MULTIPLAYER) setAnimationActive(true);
   };
 
   const handleOnRest = () => {
+    if (localMode === MULTIPLAYER && multiplayerName.length === 0) return;
     setMode(localMode);
     setShowCountdown(true);
+    setAnimationActive(false);
   };
 
   if (showCountdown || gameFinishedResult) return null;
@@ -35,31 +40,47 @@ const ModeChoicesContainer = ({
     return mode;
   }
 
+  if (localMode === MULTIPLAYER) {
+    return (
+      <MultiplayerSidebar
+        contentProps={contentProps}
+        setAnimationActive={setAnimationActive}
+        setMultiplayerName={setMultiplayerName}
+        multiplayerName={multiplayerName}
+      />
+    );
+  }
+
   return (
-    <div className="flex flex-col">
+    <animated.div
+      className="flex flex-col"
+      style={contentProps}
+    >
       <div className="flex flex-col">
         { singleGameModeButtons.map(({ id, label }) => (
           <ModeButton
+            key={id}
             id={id}
             label={label}
             contentProps={contentProps}
-            handleClick={handleClick}
+            handleClick={handleModeClick}
           />
         )) }
       </div>
       <div className="flex flex-col mt-auto">
         { multiplayerGameModeButtons.map(({ id, label, className }) => (
           <ModeButton
+            key={id}
             id={id}
             label={label}
             contentProps={contentProps}
-            handleClick={handleClick}
+            handleClick={handleModeClick}
             className={className}
           />
         )) }
       </div>
-    </div>
+    </animated.div>
   );
 };
 
-export default ModeChoicesContainer;
+export default SidebarContainer;

@@ -43,7 +43,7 @@ export const modeConfigConstants = {
     losingMessage: 'You lost.. gotta try it again, surely?'
   },
   [MULTIPLAYER]: {
-    mode: TIMER,
+    mode: MULTIPLAYER,
     remaining: 3, // seconds
     winningMessage: (remaining) => `${generateWinningMessage(remaining)} seconds left!`,
     losingMessage: 'You lost.. gotta try it again, surely? MULTIPLAYER'

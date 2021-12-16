@@ -6,7 +6,7 @@ import GameTimer from './components/GameModes/GameTimer';
 import Grid from './components/Grid';
 import GameFinish from './components/GameFinish';
 import { LOST } from './constants/gameFinishedResultConstants';
-import ModeChoicesContainer from './components/ModeChoices/ModeChoicesContainer';
+import SidebarContainer from './components/Sidebar/SidebarContainer';
 
 function App() {
   const [modeConfig, setModeConfig] = useState(null);
@@ -65,7 +65,7 @@ function App() {
     <div className='h-screen flex items-center justify-center'>
       <div className="w-full">
         <div className={`flex justify-center ${modeConfig ? 'flex-col items-center' : ''}`}>
-          <ModeChoicesContainer
+          <SidebarContainer
             mode={modes[mode]}
             setMode={setMode}
             setShowCountdown={setShowCountdown}
