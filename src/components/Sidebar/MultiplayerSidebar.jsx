@@ -5,7 +5,7 @@ const MultiplayerSidebar = ({
   contentProps,
   multiplayerName,
   setMultiplayerName,
-  setAnimationActive
+  setStartGame
 }) => {
   return (
     <animated.div
@@ -25,7 +25,7 @@ const MultiplayerSidebar = ({
         />
         <button
           className="bg-blue-500 w-64 m-2 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded disabled:opacity-50"
-          onClick={() => setAnimationActive(true)}
+          onClick={() => setStartGame(true)}
           disabled={multiplayerName.length === 0}
         >
           Start

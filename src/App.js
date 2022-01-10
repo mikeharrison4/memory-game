@@ -25,22 +25,39 @@ function App() {
     }
   }, [modeConfig]);
 
-  const modes = {
-    [LIVES]:
-      <GameLives modeConfig={modeConfig} />,
-    [TIMER]:
-      <GameTimer
-        modeConfig={modeConfig}
-        setModeConfig={setModeConfig}
-        stopTimer={stopTimer}
-      />,
-    [MULTIPLAYER]:
-      <GameTimer
-        modeConfig={modeConfig}
-        setModeConfig={setModeConfig}
-        stopTimer={stopTimer}
-      />,
+  const getModeComponent = (mode) => {
+    switch (mode) {
+      case LIVES:
+        return <GameLives modeConfig={modeConfig} />;
+      case TIMER:
+      case MULTIPLAYER:
+        return (
+          <GameTimer
+            modeConfig={modeConfig}
+            setModeConfig={setModeConfig}
+            stopTimer={stopTimer}
+          /> 
+        );
+      default:
+        return;
+    }
   };
+  // const modes = {
+  //   [LIVES]:
+  //     <GameLives modeConfig={modeConfig} />,
+  //   [TIMER]:
+  //     <GameTimer
+  //       modeConfig={modeConfig}
+  //       setModeConfig={setModeConfig}
+  //       stopTimer={stopTimer}
+  //     />,
+  //   [MULTIPLAYER]:
+  //     <GameTimer
+  //       modeConfig={modeConfig}
+  //       setModeConfig={setModeConfig}
+  //       stopTimer={stopTimer}
+  //     />,
+  // };
 
   if (gameFinishedResult) {
     const handleResetGame = () => {
@@ -66,7 +83,7 @@ function App() {
       <div className="w-full">
         <div className={`flex justify-center ${modeConfig ? 'flex-col items-center' : ''}`}>
           <SidebarContainer
-            mode={modes[mode]}
+            mode={getModeComponent(mode)}
             setMode={setMode}
             setShowCountdown={setShowCountdown}
             showCountdown={showCountdown}

@@ -1,6 +1,7 @@
 export const LIVES = 'lives';
 export const TIMER = 'timer';
 export const MULTIPLAYER = 'multiplayer';
+export const LEADERBOARD = 'leaderboard';
 
 export const singleGameModeButtons = [
   {
@@ -19,7 +20,7 @@ export const multiplayerGameModeButtons = [
     label: 'Multiplayer (timer mode)',
   },
   {
-    id: 'seeLeaderboard',
+    id: LEADERBOARD,
     label: 'See Leaderboard',
     className: 'text-sm'
   }

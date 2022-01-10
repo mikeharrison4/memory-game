@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useSpring } from 'react-spring';
-import { MULTIPLAYER, multiplayerGameModeButtons, singleGameModeButtons } from '../../constants/modeConstants';
+import {
+  LEADERBOARD,
+  MULTIPLAYER,
+  multiplayerGameModeButtons,
+  singleGameModeButtons
+} from '../../constants/modeConstants';
 import ModeButton from './ModeButton';
 import { animated } from 'react-spring';
 import MultiplayerSidebar from './MultiplayerSidebar';
@@ -12,39 +17,52 @@ const SidebarContainer = ({
   setShowCountdown,
   gameFinishedResult
 }) => {
-  const [animationActive, setAnimationActive] = useState(false);
-  const [localMode, setLocalMode] = useState('');
+  const [startGame, setStartGame] = useState(false);
+  const [userChoice, setUserChoice] = useState({});
   const [multiplayerName, setMultiplayerName] = useState('');
 
   const contentProps = useSpring({
-    marginLeft: animationActive ? -270 : 0,
-    opacity: animationActive ? 0 : 1,
+    marginLeft: startGame ? -270 : 0,
+    opacity: startGame ? 0 : 1,
     onRest: () => handleOnRest(),
   });
 
-  const handleModeClick = e => {
-    setLocalMode(e.target.value);
-    if (e.target.value !== MULTIPLAYER) setAnimationActive(true);
+  const handleModeClick = (e, isMultiplayer) => {
+    setUserChoice({
+      value: e.target.value,
+      isMultiplayer
+    });
+    if (!isMultiplayer) {
+      setStartGame(true);
+    }
   };
 
   const handleOnRest = () => {
-    if (localMode === MULTIPLAYER && multiplayerName.length === 0) return;
-    setMode(localMode);
+    console.log(userChoice);
+    if (userChoice.isMultiplayer && multiplayerName.length === 0) {
+      return;
+    }
+    setMode(userChoice.value);
     setShowCountdown(true);
-    setAnimationActive(false);
+    setStartGame(false);
   };
 
-  if (showCountdown || gameFinishedResult) return null;
+  // if (showCountdown || gameFinishedResult) return null; // don't think i need this??
+  if (showCountdown) return null;
 
   if (mode && mode.props.modeConfig) {
     return mode;
   }
 
-  if (localMode === MULTIPLAYER) {
+  if (userChoice.value === LEADERBOARD) {
+    return <div>hello</div>;
+  }
+
+  if (userChoice.value === MULTIPLAYER) {
     return (
       <MultiplayerSidebar
         contentProps={contentProps}
-        setAnimationActive={setAnimationActive}
+        setStartGame={setStartGame}
         setMultiplayerName={setMultiplayerName}
         multiplayerName={multiplayerName}
       />
@@ -76,6 +94,7 @@ const SidebarContainer = ({
             contentProps={contentProps}
             handleClick={handleModeClick}
             className={className}
+            isMultiplayer={true}
           />
         )) }
       </div>
