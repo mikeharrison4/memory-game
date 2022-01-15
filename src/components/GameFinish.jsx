@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { WON } from '../constants/gameFinishedResultConstants';
+import firebaseApp from '../firebase';
+import { MULTIPLAYER } from '../constants/modeConstants';
 
-const GameFinish = ({ modeConfig, handleResetGame, gameFinishedResult }) => {
+const GameFinish = ({
+  modeConfig,
+  multiplayerName,
+  handleResetGame,
+  gameFinishedResult
+}) => {
+  useEffect(() => {
+    if (gameFinishedResult === WON && modeConfig.mode === MULTIPLAYER) {
+      firebaseApp
+        .collection('users')
+        .add({
+          name: multiplayerName,
+          time_seconds: modeConfig.remaining,
+        });
+    }
+  }, []);
+
   return (
     <div className='flex flex-col justify-center z-20'>
       { gameFinishedResult === WON

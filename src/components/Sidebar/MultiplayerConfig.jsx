@@ -1,7 +1,7 @@
 import React from 'react';
 import { animated } from 'react-spring';
 
-const MultiplayerSidebar = ({
+const MultiplayerConfig = ({
   contentProps,
   multiplayerName,
   setMultiplayerName,
@@ -35,4 +35,4 @@ const MultiplayerSidebar = ({
   );
 };
 
-export default MultiplayerSidebar;
+export default MultiplayerConfig;

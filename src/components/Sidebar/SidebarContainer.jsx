@@ -8,18 +8,19 @@ import {
 } from '../../constants/modeConstants';
 import ModeButton from './ModeButton';
 import { animated } from 'react-spring';
-import MultiplayerSidebar from './MultiplayerSidebar';
+import MultiplayerConfig from './MultiplayerConfig';
+import MultiplayerLeaderboard from './MultiplayerLeaderboard';
 
 const SidebarContainer = ({
   mode,
   setMode,
   showCountdown,
   setShowCountdown,
-  gameFinishedResult
+  setMultiplayerName,
+  multiplayerName,
 }) => {
   const [startGame, setStartGame] = useState(false);
   const [userChoice, setUserChoice] = useState({});
-  const [multiplayerName, setMultiplayerName] = useState('');
 
   const contentProps = useSpring({
     marginLeft: startGame ? -270 : 0,
@@ -38,7 +39,6 @@ const SidebarContainer = ({
   };
 
   const handleOnRest = () => {
-    console.log(userChoice);
     if (userChoice.isMultiplayer && multiplayerName.length === 0) {
       return;
     }
@@ -47,7 +47,6 @@ const SidebarContainer = ({
     setStartGame(false);
   };
 
-  // if (showCountdown || gameFinishedResult) return null; // don't think i need this??
   if (showCountdown) return null;
 
   if (mode && mode.props.modeConfig) {
@@ -55,12 +54,14 @@ const SidebarContainer = ({
   }
 
   if (userChoice.value === LEADERBOARD) {
-    return <div>hello</div>;
+    return (
+      <MultiplayerLeaderboard />
+    );
   }
 
   if (userChoice.value === MULTIPLAYER) {
     return (
-      <MultiplayerSidebar
+      <MultiplayerConfig
         contentProps={contentProps}
         setStartGame={setStartGame}
         setMultiplayerName={setMultiplayerName}

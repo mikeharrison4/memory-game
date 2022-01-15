@@ -14,6 +14,7 @@ function App() {
   const [showCountdown, setShowCountdown] = useState(false);
   const [gameFinishedResult, setGameFinishedResult] = useState(null);
   const [stopTimer, setStopTimer] = useState(false);
+  const [multiplayerName, setMultiplayerName] = useState('');
 
   React.useEffect(() => {
     setModeConfig(modeConfigConstants[mode]);
@@ -42,22 +43,6 @@ function App() {
         return;
     }
   };
-  // const modes = {
-  //   [LIVES]:
-  //     <GameLives modeConfig={modeConfig} />,
-  //   [TIMER]:
-  //     <GameTimer
-  //       modeConfig={modeConfig}
-  //       setModeConfig={setModeConfig}
-  //       stopTimer={stopTimer}
-  //     />,
-  //   [MULTIPLAYER]:
-  //     <GameTimer
-  //       modeConfig={modeConfig}
-  //       setModeConfig={setModeConfig}
-  //       stopTimer={stopTimer}
-  //     />,
-  // };
 
   if (gameFinishedResult) {
     const handleResetGame = () => {
@@ -73,6 +58,7 @@ function App() {
           modeConfig={modeConfig}
           gameFinishedResult={gameFinishedResult}
           handleResetGame={handleResetGame}
+          multiplayerName={multiplayerName}
         />
       </div>
     );
@@ -87,7 +73,8 @@ function App() {
             setMode={setMode}
             setShowCountdown={setShowCountdown}
             showCountdown={showCountdown}
-            gameFinishedResult={gameFinishedResult}
+            multiplayerName={multiplayerName}
+            setMultiplayerName={setMultiplayerName}
           />
           { showCountdown && <Countdown setShowCountdown={setShowCountdown} /> }
           <Grid
