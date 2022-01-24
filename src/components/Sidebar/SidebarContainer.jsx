@@ -55,7 +55,15 @@ const SidebarContainer = ({
 
   if (userChoice.value === LEADERBOARD) {
     return (
-      <MultiplayerLeaderboard />
+      <div className="flex flex-col h-100 w-1/5">
+        <MultiplayerLeaderboard />
+        <button
+          onClick={() => setUserChoice({})}
+          className="mt-auto mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Back
+        </button>
+      </div>
     );
   }
 

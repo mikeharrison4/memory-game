@@ -52,12 +52,19 @@ function App() {
       setStopTimer(false);
     };
 
+    const handleResetGameWithSameMode = () => {
+      setModeConfig(modeConfigConstants[mode]);
+      setGameFinishedResult(null);
+      setStopTimer(false);
+    };
+
     return (
       <div className="h-screen flex justify-center items-center">
         <GameFinish
           modeConfig={modeConfig}
           gameFinishedResult={gameFinishedResult}
           handleResetGame={handleResetGame}
+          handleResetGameWithSameMode={handleResetGameWithSameMode}
           multiplayerName={multiplayerName}
         />
       </div>

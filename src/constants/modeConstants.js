@@ -46,7 +46,7 @@ export const modeConfigConstants = {
   [MULTIPLAYER]: {
     mode: MULTIPLAYER,
     remaining: 3, // seconds
-    winningMessage: (remaining) => `${generateWinningMessage(remaining)} seconds left!`,
+    winningMessage: (remaining) => `${generateWinningMessage(remaining)} seconds left! You got yourself a spot on the leaderboard.`,
     losingMessage: 'You lost.. gotta try it again, surely? MULTIPLAYER'
   }
 };

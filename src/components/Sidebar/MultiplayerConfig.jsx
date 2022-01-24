@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { animated } from 'react-spring';
 
 const MultiplayerConfig = ({
@@ -7,6 +7,10 @@ const MultiplayerConfig = ({
   setMultiplayerName,
   setStartGame
 }) => {
+  useEffect(() => {
+    setMultiplayerName('');
+  }, []);
+
   return (
     <animated.div
       className="flex flex-col justify-between"

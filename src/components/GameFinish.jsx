@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WON } from '../constants/gameFinishedResultConstants';
 import firebaseApp from '../firebase';
 import { MULTIPLAYER } from '../constants/modeConstants';
+import MultiplayerLeaderboard from './Sidebar/MultiplayerLeaderboard';
 
 const GameFinish = ({
   modeConfig,
   multiplayerName,
   handleResetGame,
+  handleResetGameWithSameMode,
   gameFinishedResult
 }) => {
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+
   useEffect(() => {
     if (gameFinishedResult === WON && modeConfig.mode === MULTIPLAYER) {
       firebaseApp
@@ -27,11 +31,32 @@ const GameFinish = ({
         : modeConfig.losingMessage
       }
       <button
-        onClick={handleResetGame}
+        onClick={handleResetGameWithSameMode}
         className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Play again
       </button>
+      <button
+        onClick={handleResetGame}
+        className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Pick a new mode
+      </button>
+      { modeConfig.mode === MULTIPLAYER 
+        && (
+          <button
+            onClick={() => setShowLeaderboard(!showLeaderboard)}
+            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            { `${showLeaderboard ? 'Hide Leaderboard' : 'See Leaderboard'}` }
+          </button>
+        )
+      }
+      { showLeaderboard
+        && (
+          <MultiplayerLeaderboard />
+        )
+      }
     </div>
   );
 };
