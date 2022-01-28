@@ -6,7 +6,7 @@ import MultiplayerLeaderboard from './Sidebar/MultiplayerLeaderboard';
 
 const GameFinish = ({
   modeConfig,
-  multiplayerName,
+  multiplayerUser,
   handleResetGame,
   handleResetGameWithSameMode,
   gameFinishedResult
@@ -17,8 +17,9 @@ const GameFinish = ({
     if (gameFinishedResult === WON && modeConfig.mode === MULTIPLAYER) {
       firebaseApp
         .collection('users')
-        .add({
-          name: multiplayerName,
+        .doc(multiplayerUser.id)
+        .set({
+          name: multiplayerUser.name,
           time_seconds: modeConfig.remaining,
         });
     }

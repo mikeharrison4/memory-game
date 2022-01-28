@@ -16,8 +16,8 @@ const SidebarContainer = ({
   setMode,
   showCountdown,
   setShowCountdown,
-  setMultiplayerName,
-  multiplayerName,
+  setMultiplayerUser,
+  multiplayerUser,
 }) => {
   const [startGame, setStartGame] = useState(false);
   const [userChoice, setUserChoice] = useState({});
@@ -39,7 +39,7 @@ const SidebarContainer = ({
   };
 
   const handleOnRest = () => {
-    if (userChoice.isMultiplayer && multiplayerName.length === 0) {
+    if (userChoice.isMultiplayer && multiplayerUser.length === 0) {
       return;
     }
     setMode(userChoice.value);
@@ -72,8 +72,8 @@ const SidebarContainer = ({
       <MultiplayerConfig
         contentProps={contentProps}
         setStartGame={setStartGame}
-        setMultiplayerName={setMultiplayerName}
-        multiplayerName={multiplayerName}
+        setMultiplayerUser={setMultiplayerUser}
+        multiplayerUser={multiplayerUser}
       />
     );
   }
