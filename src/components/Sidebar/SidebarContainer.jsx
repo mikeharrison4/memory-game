@@ -73,7 +73,6 @@ const SidebarContainer = ({
         contentProps={contentProps}
         setStartGame={setStartGame}
         setMultiplayerUser={setMultiplayerUser}
-        multiplayerUser={multiplayerUser}
       />
     );
   }

@@ -14,7 +14,7 @@ const Grid = ({
   setStopTimer,
   ...rest
 }) => {
-  const [tiles, setTiles] = useState([...tileData]);
+  const [tiles, setTiles] = useState(shuffleTiles(tileData));
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
@@ -60,7 +60,7 @@ const Grid = ({
 
   // Listen for matchedPairs and check if game is won
   useEffect(() => {
-    if (matchedPairs === 1) {
+    if (matchedPairs === (tiles.length / 2)) {
       setShowCelebration(true);
       setStopTimer(true);
       setTimeout(() => {
