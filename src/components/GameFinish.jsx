@@ -1,28 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { WON } from '../constants/gameFinishedResultConstants';
 import firebaseApp from '../firebase';
 import { MULTIPLAYER } from '../constants/modeConstants';
 import MultiplayerLeaderboard from './Sidebar/MultiplayerLeaderboard';
+import hasPlayerAlreadyScored from '../utils/hasPlayerAlreadyScored';
 
 const GameFinish = ({
   modeConfig,
-  multiplayerName,
+  multiplayerUser,
   handleResetGame,
   handleResetGameWithSameMode,
   gameFinishedResult
 }) => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
-  useEffect(() => {
-    if (gameFinishedResult === WON && modeConfig.mode === MULTIPLAYER) {
-      firebaseApp
-        .collection('users')
-        .add({
-          name: multiplayerName,
+  const addUser = useCallback(async () => {
+    const userRef = firebaseApp.collection('users')
+      .doc(multiplayerUser.id);
+    const user = await userRef.get();
+
+    if (hasPlayerAlreadyScored(user, modeConfig)) {
+      await userRef
+        .set({
+          name: multiplayerUser.name,
           time_seconds: modeConfig.remaining,
         });
     }
-  }, []);
+  }, [multiplayerUser.name, multiplayerUser.id, modeConfig]);
+
+  useEffect(() => {
+    if (gameFinishedResult === WON && modeConfig.mode === MULTIPLAYER) {
+      addUser();
+    }
+  }, [gameFinishedResult, addUser, modeConfig.mode]);
 
   return (
     <div className='flex flex-col justify-center z-20'>
@@ -34,7 +44,7 @@ const GameFinish = ({
         onClick={handleResetGameWithSameMode}
         className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Play again
+        Beat your score?
       </button>
       <button
         onClick={handleResetGame}
@@ -54,7 +64,7 @@ const GameFinish = ({
       }
       { showLeaderboard
         && (
-          <MultiplayerLeaderboard />
+          <MultiplayerLeaderboard currentUser={multiplayerUser} />
         )
       }
     </div>
