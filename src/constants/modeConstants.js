@@ -6,18 +6,18 @@ export const LEADERBOARD = 'leaderboard';
 export const singleGameModeButtons = [
   {
     id: LIVES,
-    label: 'Single player (lives mode)',
+    label: 'Lives',
   },
   {
     id: TIMER,
-    label: 'Single player (timer mode)',
+    label: 'Timer',
   }
 ];
 
 export const multiplayerGameModeButtons = [
   {
     id: MULTIPLAYER,
-    label: 'Multiplayer (timer mode)',
+    label: 'Multiplayer',
   },
   {
     id: LEADERBOARD,

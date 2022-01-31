@@ -7,6 +7,7 @@ import Grid from './components/Grid';
 import GameFinish from './components/GameFinish';
 import { LOST } from './constants/gameFinishedResultConstants';
 import SidebarContainer from './components/Sidebar/SidebarContainer';
+import Container from './components/Container';
 
 function App() {
   const [modeConfig, setModeConfig] = useState(null);
@@ -62,7 +63,7 @@ function App() {
     };
 
     return (
-      <div className="h-screen flex justify-center items-center">
+      <Container>
         <GameFinish
           modeConfig={modeConfig}
           gameFinishedResult={gameFinishedResult}
@@ -70,12 +71,12 @@ function App() {
           handleResetGameWithSameMode={handleResetGameWithSameMode}
           multiplayerUser={multiplayerUser}
         />
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className='h-screen flex items-center justify-center'>
+    <Container>
       <div className="w-full">
         <div className={`flex justify-center ${modeConfig ? 'flex-col items-center' : ''}`}>
           <SidebarContainer
@@ -96,7 +97,7 @@ function App() {
           />
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
