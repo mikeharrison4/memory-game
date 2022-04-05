@@ -60,6 +60,7 @@ function App() {
       setModeConfig(modeConfigConstants[mode]);
       setGameFinishedResult(null);
       setStopTimer(false);
+      setShowCountdown(true);
     };
 
     return (
